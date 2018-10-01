@@ -1,0 +1,6 @@
+Software must produce following operating modes
+off
+brightest
+intermediate brightness
+least bright
+flashing @ 2 Hz
