@@ -1,2 +1,6 @@
-Mechanical Designs go here
+Mechanical Designs:
+Circular with removable battery container
+Contains arduino for now, hopefully can do without it
+Cone to amplify light
+
 
