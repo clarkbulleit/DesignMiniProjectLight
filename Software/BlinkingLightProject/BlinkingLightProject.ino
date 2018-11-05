@@ -29,10 +29,11 @@ void loop() {
 
 void button_pushed() {
 
-  unsigned long previous_interrupt_time = 0;
+  // Static variable only created once, the first time the function is called
+  static unsigned long previous_interrupt_time = 0;
   unsigned long interrupt_time = millis();
   if (interrupt_time - previous_interrupt_time > 500) {
-  button_push = true;
+    button_push = true;
   }
   previous_interrupt_time = interrupt_time;
 
@@ -57,18 +58,30 @@ void set_pwn_based_on_operating_mode() {
 
 void flash_the_light() {
 
-  digitalWrite(PWM_LED_OUT, HIGH);
-  delay((1000 / FLASH_RATE_HZ) / 2);
-  digitalWrite(PWM_LED_OUT, LOW);
-  delay((1000 / FLASH_RATE_HZ) / 2);
+  static unsigned long previousT = 0;
+  unsigned long currentT = millis();
+  if (currentT - previousT >= (1000/FLASH_RATE_HZ)/2) {
+    // save the last time you blinked the LED
+    previousT = currentT;
+
+    // if the LED is off turn it on and vice-versa:
+    if (PWM_OUT == 0) {
+      PWM_OUT = 255;
+    } 
+    else if (PWM_OUT == 255) {
+      PWM_OUT = 0;
+    }
+  }
+  //digitalWrite(PWM_LED_OUT, HIGH);
+  //delay((1000 / FLASH_RATE_HZ) / 2);
+  //digitalWrite(PWM_LED_OUT, LOW);
+  //delay((1000 / FLASH_RATE_HZ) / 2);
 
 }
 
 void shine_led(int PWM_OUT) {
 
-  if (operating_mode != 4) {
     analogWrite(PWM_LED_OUT, PWM_OUT);
-  }
 
 }
 
