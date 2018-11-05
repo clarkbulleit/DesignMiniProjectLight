@@ -31,9 +31,8 @@ void loop(){
     button_push = false;
   }
 
-    //set_pwm_based_on_operating_mode();
-    
-    switch (operating_mode) {
+  //set_pwm_based_on_operating_mode();
+  switch (operating_mode) {
         case 0:
             PWM_OUT = 0;
         case 1:
@@ -47,20 +46,20 @@ void loop(){
     }
 
     //shine_led();
-
+    analogWrite(PWM_LED_OUT, PWM_OUT);
 }
-
-void set_pwn_based_on_operating_mode() {
-    }
 
 void button_pushed() {
     button_push = true;
 }
 
+void set_pwn_based_on_operating_mode() {
+    }
+
 void flash_the_light() {
 }
 
-void shine_led(int PWN_OUT) {
+void shine_led(int PWM_OUT) {
     //digitalOutput(magic_in_here);
 }
 
