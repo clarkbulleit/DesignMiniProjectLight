@@ -13,6 +13,7 @@ int PWM_OUT = 0;
 // executed one-time at device startup
 void setup() {
 
+  Serial.begin(9600);
   attachInterrupt(digitalPinToInterrupt(BUTTON_IN), button_pushed, FALLING);
   pinMode(PWM_LED_OUT, OUTPUT);
 
@@ -28,7 +29,12 @@ void loop() {
 
 void button_pushed() {
 
+  unsigned long previous_interrupt_time = 0;
+  unsigned long interrupt_time = millis();
+  if (interrupt_time - previous_interrupt_time > 500) {
   button_push = true;
+  }
+  previous_interrupt_time = interrupt_time;
 
 }
 
