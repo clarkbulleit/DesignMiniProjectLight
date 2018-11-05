@@ -21,17 +21,19 @@ void setup() {
 void loop() {
 
   check_for_button_press();
-
   set_pwn_based_on_operating_mode();
+  shine_led(PWM_OUT);
 
-  shine_led();
 }
 
 void button_pushed() {
+
   button_push = true;
+
 }
 
 void set_pwn_based_on_operating_mode() {
+
   switch (operating_mode) {
     case 0:
       PWM_OUT = 0;
@@ -44,19 +46,24 @@ void set_pwn_based_on_operating_mode() {
     case 4:
       flash_the_light();
   }
+
 }
 
 void flash_the_light() {
+
   digitalWrite(PWM_LED_OUT, HIGH);
   delay((1000 / FLASH_RATE_HZ) / 2);
   digitalWrite(PWM_LED_OUT, LOW);
   delay((1000 / FLASH_RATE_HZ) / 2);
+
 }
 
 void shine_led(int PWM_OUT) {
+
   if (operating_mode != 4) {
     analogWrite(PWM_LED_OUT, PWM_OUT);
   }
+
 }
 
 void check_for_button_press() {
@@ -69,5 +76,6 @@ void check_for_button_press() {
     operating_mode = 0;
     button_push = false;
   }
+
 }
 
