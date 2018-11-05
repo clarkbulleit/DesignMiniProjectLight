@@ -7,38 +7,32 @@
 // global variables representing "state" across all functions
 // operating mode: 0 - off, 1 - bright, 2 - mid-bright, 3 - dim, 4 - flash
 int operating_mode = 0;
-bool button_push = true;
-int previous_button_state = 0;
+bool button_push = false;
+int previous_mode = 0;
 int PWM_OUT = 0;
 
 // executed one-time at device startup
 void setup() {
 
-  Serial.begin(9600);
-  pinMode(BUTTON_IN, INPUT);
+  attachInterrupt(digitalPinToInterrupt(BUTTON_IN), button_pushed, FALLING);
   pinMode(PWM_LED_OUT, OUTPUT);
-  attachInterrupt(BUTTON_IN, button_pushed, FALLING);
-  // define output (PWM) pin connected to LED
 
 }
 
-
-
-
-// continually-running loop
-// calls functions that are named as "actions"
 void loop(){
 
-    //check_for_button_press();
+  //check_for_button_press();
+  if ((button_push) && (previous_mode != 4)) {
+     operating_mode = previous_mode + 1;
+     button_push = false;
+  }
+  else if ((button_push) && (previous_mode == 4)) {
+    operating_mode = 0;
+    button_push = false;
+  }
 
     //set_pwm_based_on_operating_mode();
-
-    //shine_led();
-
-}
-
-void set_pwn_based_on_operating_mode() {
-
+    
     switch (operating_mode) {
         case 0:
             PWM_OUT = 0;
@@ -52,14 +46,18 @@ void set_pwn_based_on_operating_mode() {
             flash_the_light();
     }
 
+    //shine_led();
+
 }
+
+void set_pwn_based_on_operating_mode() {
+    }
 
 void button_pushed() {
     button_push = true;
 }
 
 void flash_the_light() {
-
 }
 
 void shine_led(int PWN_OUT) {
@@ -67,6 +65,5 @@ void shine_led(int PWN_OUT) {
 }
 
 void check_button_press() {
-    // set operating_mode
-    // reset previous button press state, interrupt catch, etc.
 }
+    
