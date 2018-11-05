@@ -46,7 +46,10 @@ void loop(){
     }
 
     //shine_led();
+  if (operating_mode !=4){
     analogWrite(PWM_LED_OUT, PWM_OUT);
+  }
+  
 }
 
 void button_pushed() {
@@ -57,6 +60,10 @@ void set_pwn_based_on_operating_mode() {
     }
 
 void flash_the_light() {
+  digitalWrite(PWM_LED_OUT, HIGH);
+  delay((1000/FLASH_RATE_HZ)/2);
+  digitalWrite(PWM_LED_OUT, LOW);
+  delay((1000/FLASH_RATE_HZ)/2);
 }
 
 void shine_led(int PWM_OUT) {
