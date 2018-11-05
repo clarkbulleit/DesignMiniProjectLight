@@ -4,7 +4,6 @@
 #define PWM_LED_OUT 9
 #define PWM_MAX 255
 
-// global variables representing "state" across all functions
 // operating mode: 0 - off, 1 - bright, 2 - mid-bright, 3 - dim, 4 - flash
 int operating_mode = 0;
 bool button_push = false;
@@ -19,57 +18,56 @@ void setup() {
 
 }
 
-void loop(){
+void loop() {
 
-  //check_for_button_press();
+  check_for_button_press();
+
+  set_pwn_based_on_operating_mode();
+
+  shine_led();
+}
+
+void button_pushed() {
+  button_push = true;
+}
+
+void set_pwn_based_on_operating_mode() {
+  switch (operating_mode) {
+    case 0:
+      PWM_OUT = 0;
+    case 1:
+      PWM_OUT = PWM_MAX;
+    case 2:
+      PWM_OUT = int(PWM_MAX / 2);
+    case 3:
+      PWM_OUT = int(PWM_MAX / 4);
+    case 4:
+      flash_the_light();
+  }
+}
+
+void flash_the_light() {
+  digitalWrite(PWM_LED_OUT, HIGH);
+  delay((1000 / FLASH_RATE_HZ) / 2);
+  digitalWrite(PWM_LED_OUT, LOW);
+  delay((1000 / FLASH_RATE_HZ) / 2);
+}
+
+void shine_led(int PWM_OUT) {
+  if (operating_mode != 4) {
+    analogWrite(PWM_LED_OUT, PWM_OUT);
+  }
+}
+
+void check_for_button_press() {
+
   if ((button_push) && (previous_mode != 4)) {
-     operating_mode = previous_mode + 1;
-     button_push = false;
+    operating_mode = previous_mode + 1;
+    button_push = false;
   }
   else if ((button_push) && (previous_mode == 4)) {
     operating_mode = 0;
     button_push = false;
   }
-
-  //set_pwm_based_on_operating_mode();
-  switch (operating_mode) {
-        case 0:
-            PWM_OUT = 0;
-        case 1:
-            PWM_OUT = PWM_MAX;
-        case 2:
-            PWM_OUT = int(PWM_MAX/2);
-        case 3:
-            PWM_OUT = int(PWM_MAX/4);
-        case 4:
-            flash_the_light();
-    }
-
-    //shine_led();
-  if (operating_mode !=4){
-    analogWrite(PWM_LED_OUT, PWM_OUT);
-  }
-  
 }
 
-void button_pushed() {
-    button_push = true;
-}
-
-void set_pwn_based_on_operating_mode() {
-    }
-
-void flash_the_light() {
-  digitalWrite(PWM_LED_OUT, HIGH);
-  delay((1000/FLASH_RATE_HZ)/2);
-  digitalWrite(PWM_LED_OUT, LOW);
-  delay((1000/FLASH_RATE_HZ)/2);
-}
-
-void shine_led(int PWM_OUT) {
-    //digitalOutput(magic_in_here);
-}
-
-void check_button_press() {
-}
-    
