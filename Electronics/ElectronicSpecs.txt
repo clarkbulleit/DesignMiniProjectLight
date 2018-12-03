@@ -1,4 +1,4 @@
-Electronic Specs
+ Electronic Specs
 Single 9V battery
 Single PCB single or double sided
 
