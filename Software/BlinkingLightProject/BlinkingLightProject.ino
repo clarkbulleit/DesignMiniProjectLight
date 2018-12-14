@@ -28,8 +28,13 @@ void loop() {
 }
 
 void button_pushed() {
-  
+      
+  unsigned long previous_interrupt_time = 0;
+  unsigned long interrupt_time = millis();
+  if (interrupt_time - previous_interrupt_time > 500) {
     button_push = true;
+  }
+  previous_interrupt_time = interrupt_time;
 
 }
 
